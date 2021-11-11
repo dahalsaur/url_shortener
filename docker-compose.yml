@@ -5,10 +5,10 @@ services:
     container_name: mysql
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: url_shortener
-      MYSQL_DATABASE: url_shortener
-      MYSQL_USER: url_shortener
-      MYSQL_PASSWORD: url_shortener
+      MYSQL_ROOT_PASSWORD: shorten
+      MYSQL_DATABASE: shorten
+      MYSQL_USER: shorten
+      MYSQL_PASSWORD: shorten
     volumes:
       - mysql:/var/lib/mysql
     ports:
