@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Link;
+use App\Service\SlugGeneratorInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -15,9 +17,14 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LinkRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private EntityManagerInterface $em;
+    private SlugGeneratorInterface $slugGenerator;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager, SlugGeneratorInterface $slugGenerator)
     {
         parent::__construct($registry, Link::class);
+        $this->em = $entityManager;
+        $this->slugGenerator = $slugGenerator;
     }
 
     // /**
@@ -60,5 +67,33 @@ class LinkRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
             ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function createLink(string $url): ?Link
+    {
+        $link = new Link();
+        $link->setUrl($url)
+            ->setSlug($this->createUniqueSlug());
+
+        $this->em->persist($link);
+        $this->em->flush();
+
+        return $link;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    private function createUniqueSlug(): string
+    {
+        do {
+            $slug = $this->slugGenerator->generate();
+            $linkWithSlug = $this->findOneBySlug($slug);
+        } while ($linkWithSlug);
+
+        return $slug;
     }
 }
