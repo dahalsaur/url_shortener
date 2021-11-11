@@ -9,7 +9,7 @@ export const LinkDetail = (props) => {
                 <Row>
                     <Col>
                         <a href={`http://localhost:8080/r/${props.link.slug}`} target="_blank">
-                            localhost:8080/r/<span style={{color: '#EB4A42'}}>{props.link.slug}</span>
+                            <b>localhost:8080/r/<span style={{color: '#EB4A42'}}>{props.link.slug}</span></b>
                         </a>
                         {' '}
                         <CopyToClipboard text={`localhost:8080/r/${props.link.slug}`}>
@@ -21,7 +21,7 @@ export const LinkDetail = (props) => {
                     </Col>
                 </Row>
                 <Row>
-                    <p>{props.link.url}</p>
+                    <a href={props.link.url}>{props.link.url}</a>
                 </Row>
             </Col>
         </li>
