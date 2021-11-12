@@ -18,15 +18,22 @@ These instructions will get you a copy of the project up and running on your loc
 2. Open bash from php container and install composer packages
 ```
 docker-compose exec php /bin/bash
+
 composer install
 ```
 3. Copy .env to .env.local
 ```
 cp .env .env.local
 ```
-4. Install yarn packages
+4. Run migrations
+```
+php bin/console doctrine:migrations:migrate
+```
+5. Install yarn packages and compile assets
 ```
 yarn install
+
+yarn encore dev
 ```
 
 ## Running the app
