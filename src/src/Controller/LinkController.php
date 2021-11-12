@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\LinkVisit;
 use App\Repository\LinkRepository;
+use App\Repository\LinkVisitRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -14,10 +16,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 class LinkController extends AbstractController
 {
     private LinkRepository $linkRepository;
+    private LinkVisitRepository $linkVisitRepository;
 
-    public function __construct(LinkRepository $linkRepository)
+    public function __construct(LinkRepository $linkRepository, LinkVisitRepository $linkVisitRepository)
     {
         $this->linkRepository = $linkRepository;
+        $this->linkVisitRepository = $linkVisitRepository;
     }
 
     /**
@@ -29,6 +33,7 @@ class LinkController extends AbstractController
         $link = $this->linkRepository->findOneBySlug($slug);
 
         if ($link) {
+            $this->linkVisitRepository->createLinkVisit($link);
             return $this->redirect($link->getUrl());
         } else {
             return new Response('URL not found', 404);
