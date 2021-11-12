@@ -17,6 +17,9 @@ export const LinkDetail = (props) => {
                         </CopyToClipboard>
                     </Col>
                     <Col>
+                        Link visits: <b>{props.link.linkVisitCounts}</b>
+                    </Col>
+                    <Col>
 
                     </Col>
                 </Row>
