@@ -28,6 +28,8 @@ cp .env .env.local
 4. Run migrations
 ```
 php bin/console doctrine:migrations:migrate
+
+php bin/console doctrine:migrations:migrate (Update(quick fix): Please run this command again to migrate LinkVisit table)
 ```
 5. Install yarn packages and compile assets
 ```
